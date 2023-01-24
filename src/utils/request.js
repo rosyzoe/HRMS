@@ -7,20 +7,20 @@ const service = axios.create({
 
 // request interceptor
 service.interceptors.request.use(
-  config => {
+  (config) => {
     return config
   },
-  error => {
+  (error) => {
     return Promise.reject(error)
   }
 )
 
 // response interceptor
 service.interceptors.response.use(
-  response => {
+  (response) => {
     return response
   },
-  error => {
+  (error) => {
     return Promise.reject(error)
   }
 )
