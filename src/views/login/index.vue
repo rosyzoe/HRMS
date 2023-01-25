@@ -77,7 +77,6 @@
 
 <script>
 import { validMobile } from '@/utils/validate'
-import { userLoginAPI } from '@/api'
 
 export default {
   name: 'Login',
@@ -147,9 +146,7 @@ export default {
           // 放入可能报错的代码
           try {
             // 调用请求接口
-            const res = await userLoginAPI(this.loginForm)
-            console.log(res)
-            this.$store.commit('user/SET_TOKEN', res.data)
+            this.$store.dispatch('user/loginAction', this.loginForm)
           } catch (error) {
             console.dir(error)
           }

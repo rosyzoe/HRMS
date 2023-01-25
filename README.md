@@ -62,6 +62,23 @@ if (success) {
 }
 ```
 
+```js
+利用请求拦截器统一携带请求头token
+
+// request interceptor
+service.interceptors.request.use(
+  (config) => {
+    // 统一携带请求头
+    const token = store.getters.token
+    if (token) config.headers.Authorization = `Bearer ${token}`
+    return config
+  },
+  (error) => {
+    return Promise.reject(error)
+  }
+)
+```
+
 ## 5.token 处理
 
 ```js
@@ -78,4 +95,30 @@ if (success) {
       + SET_TOKEN: (state, token) => {
         state.token = token
       }
+
+  2.实现token持久化
+  import { getToken, setToken, removeToken } from '@/utils/auth'
+
+  const getDefaultState = () => {
+    return {
+      // token
+      token: getToken() // 从本地取出token,实现持久化
+    }
+  }
+
+  const state = getDefaultState()
+
+  const mutations = {
+    // 修改token
+    SET_TOKEN: (state, token) => {
+      state.token = token // 修改state
+      setToken(token) // 向本地也存储一份
+    },
+
+    // 重置token
+    RESET_TOKEN: (state) => {
+      state.token = '' // 重置state内的token
+      removeToken() // 移除本地中的token
+    }
+  }
 ```

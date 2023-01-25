@@ -1,4 +1,5 @@
 import { getToken, setToken, removeToken } from '@/utils/auth'
+import { userLoginAPI } from '@/api'
 
 const getDefaultState = () => {
   return {
@@ -27,7 +28,15 @@ const mutations = {
   }
 }
 
-const actions = {}
+const actions = {
+  // 用户登录
+  async loginAction({ commit }, data) {
+    // 获取返回的数据
+    const res = await userLoginAPI(data)
+    // 设置token
+    commit('SET_TOKEN', res.data)
+  }
+}
 
 export default {
   namespaced: true,
