@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
+import store from '@/store'
 
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
@@ -9,6 +10,9 @@ const service = axios.create({
 // request interceptor
 service.interceptors.request.use(
   (config) => {
+    // 统一携带请求头
+    const token = store.getters.token
+    if (token) config.headers.Authorization = `Bearer ${token}`
     return config
   },
   (error) => {

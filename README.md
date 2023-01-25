@@ -61,3 +61,21 @@ if (success) {
   return Promise.reject(message)
 }
 ```
+
+## 5.token 处理
+
+```js
+  1.将token保存到vuex中
+      + src/store/user:
+        const getDefaultState = () => {
+        return {
+          // token
+          token: getToken()
+        }
+      }
+
+      // 修改token
+      + SET_TOKEN: (state, token) => {
+        state.token = token
+      }
+```
