@@ -149,6 +149,7 @@ export default {
             // 调用请求接口
             const res = await userLoginAPI(this.loginForm)
             console.log(res)
+            this.$store.commit('user/SET_TOKEN', res.data)
           } catch (error) {
             console.dir(error)
           }

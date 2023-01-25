@@ -1,5 +1,10 @@
+import { getToken } from '@/utils/auth'
+
 const getDefaultState = () => {
-  return {}
+  return {
+    // token
+    token: getToken()
+  }
 }
 
 const state = getDefaultState()
@@ -7,6 +12,11 @@ const state = getDefaultState()
 const mutations = {
   RESET_STATE: (state) => {
     Object.assign(state, getDefaultState())
+  },
+
+  // 修改token
+  SET_TOKEN: (state, token) => {
+    state.token = token
   }
 }
 
@@ -18,4 +28,3 @@ export default {
   mutations,
   actions
 }
-
