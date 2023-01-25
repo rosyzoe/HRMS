@@ -1,9 +1,9 @@
-import { getToken } from '@/utils/auth'
+import { getToken, setToken, removeToken } from '@/utils/auth'
 
 const getDefaultState = () => {
   return {
     // token
-    token: getToken()
+    token: getToken() // 从本地取出token,实现持久化
   }
 }
 
@@ -16,7 +16,14 @@ const mutations = {
 
   // 修改token
   SET_TOKEN: (state, token) => {
-    state.token = token
+    state.token = token // 修改state
+    setToken(token) // 向本地也存储一份
+  },
+
+  // 重置token
+  RESET_TOKEN: (state) => {
+    state.token = '' // 重置state内的token
+    removeToken() // 移除本地中的token
   }
 }
 
