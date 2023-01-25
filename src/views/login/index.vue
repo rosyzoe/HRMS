@@ -77,6 +77,7 @@
 
 <script>
 import { validMobile } from '@/utils/validate'
+import { userLoginAPI } from '@/api'
 
 export default {
   name: 'Login',
@@ -91,22 +92,28 @@ export default {
     }
 
     return {
+      // 用户登录信息
       loginForm: {
         mobile: '13800000002',
         password: '123456'
       },
+      // 登录表单的校验规则
       loginRules: {
         mobile: [
           { required: true, trigger: 'blur', validator: validateMobile }
         ],
         password: [{ required: true, trigger: 'blur', min: 6, max: 16 }]
       },
+      // 控制登录按钮的加载状态
       loading: false,
+      // 密码的状态
       passwordType: 'password',
       redirect: undefined
     }
   },
+
   watch: {
+    // 监听路由的改变
     $route: {
       handler: function (route) {
         this.redirect = route.query && route.query.redirect
@@ -114,7 +121,9 @@ export default {
       immediate: true
     }
   },
+
   methods: {
+    // 显示密码
     showPwd() {
       if (this.passwordType === 'password') {
         this.passwordType = ''
@@ -125,21 +134,21 @@ export default {
         this.$refs.password.focus()
       })
     },
+
+    // 点击登录按钮
     handleLogin() {
-      this.$refs.loginForm.validate((valid) => {
+      // 表单兜底校验
+      this.$refs.loginForm.validate(async (valid) => {
+        // 判断表单是否全部通过验证
         if (valid) {
+          // 开启登录按钮的加载状态
           this.loading = true
-          this.$store
-            .dispatch('user/login', this.loginForm)
-            .then(() => {
-              this.$router.push({ path: this.redirect || '/' })
-              this.loading = false
-            })
-            .catch(() => {
-              this.loading = false
-            })
+
+          // 调用请求接口
+          const res = await userLoginAPI(this.loginForm)
+          console.log(res)
         } else {
-          console.log('error submit!!')
+          // 返回false,直接将登录表单标红
           return false
         }
       })
