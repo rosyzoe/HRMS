@@ -90,14 +90,6 @@ export default {
       }
     }
 
-    // 自定义校验密码
-    const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('密码不能少于6位!'))
-      } else {
-        callback()
-      }
-    }
     return {
       loginForm: {
         mobile: '13800000002',
@@ -107,9 +99,7 @@ export default {
         mobile: [
           { required: true, trigger: 'blur', validator: validateMobile }
         ],
-        password: [
-          { required: true, trigger: 'blur', validator: validatePassword }
-        ]
+        password: [{ required: true, trigger: 'blur', min: 6, max: 16 }]
       },
       loading: false,
       passwordType: 'password',
