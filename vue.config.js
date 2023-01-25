@@ -35,6 +35,14 @@ module.exports = {
     overlay: {
       warnings: false,
       errors: true
+    },
+    // 解决跨域
+    proxy: {
+      // 这里的 api 表示如果我们的请求地址以 /api 开头的时候，就出触发代理机制
+      '/api': {
+        target: 'http://ihrm.itheima.net', // 需要代理的地址
+        changeOrigin: true // 是否跨域，需要设置此值为 true 才可以让本地服务代理我们发出请求
+      }
     }
   },
   configureWebpack: {
