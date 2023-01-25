@@ -18,15 +18,15 @@
       </div>
 
       <!-- 手机号 -->
-      <el-form-item prop="username">
+      <el-form-item prop="mobile">
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
         <el-input
-          ref="username"
-          v-model="loginForm.username"
-          placeholder="Username"
-          name="username"
+          ref="mobile"
+          v-model="loginForm.mobile"
+          placeholder="请输入手机号"
+          name="mobile"
           type="text"
           tabindex="1"
           auto-complete="on"
@@ -43,7 +43,7 @@
           ref="password"
           v-model="loginForm.password"
           :type="passwordType"
-          placeholder="Password"
+          placeholder="请输入密码"
           name="password"
           tabindex="2"
           auto-complete="on"
@@ -68,41 +68,44 @@
 
       <!-- 底部文字提示 -->
       <div class="tips">
-        <span style="margin-right: 20px">username: admin</span>
-        <span> password: any</span>
+        <span style="margin-right: 20px">account: 13800000002</span>
+        <span> password: 123456</span>
       </div>
     </el-form>
   </div>
 </template>
 
 <script>
-import { validUsername } from '@/utils/validate'
+import { validMobile } from '@/utils/validate'
 
 export default {
   name: 'Login',
   data() {
-    const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
+    // 自定义校验手机号
+    const validateMobile = (rule, value, callback) => {
+      if (!validMobile(value)) {
+        callback(new Error('请输入正确的手机号!'))
       } else {
         callback()
       }
     }
+
+    // 自定义校验密码
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
+        callback(new Error('密码不能少于6位!'))
       } else {
         callback()
       }
     }
     return {
       loginForm: {
-        username: 'admin',
-        password: '111111'
+        mobile: '13800000002',
+        password: '123456'
       },
       loginRules: {
-        username: [
-          { required: true, trigger: 'blur', validator: validateUsername }
+        mobile: [
+          { required: true, trigger: 'blur', validator: validateMobile }
         ],
         password: [
           { required: true, trigger: 'blur', validator: validatePassword }
@@ -198,6 +201,10 @@ $cursor: #68b0fe; // 将输入框光标改成蓝色
     background: rgba(255, 255, 255, 0.7);
     border-radius: 5px;
     color: #454545;
+  }
+
+  .el-form-item__error {
+    font-size: 14px;
   }
 }
 </style>
