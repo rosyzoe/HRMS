@@ -144,9 +144,14 @@ export default {
           // 开启登录按钮的加载状态
           this.loading = true
 
-          // 调用请求接口
-          const res = await userLoginAPI(this.loginForm)
-          console.log(res)
+          // 放入可能报错的代码
+          try {
+            // 调用请求接口
+            const res = await userLoginAPI(this.loginForm)
+            console.log(res)
+          } catch (error) {
+            console.dir(error)
+          }
         } else {
           // 返回false,直接将登录表单标红
           return false
