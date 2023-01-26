@@ -137,3 +137,25 @@ const actions = {
   }
 }
 ```
+
+## 7.配置环境变量
+
+```js
+  1.配置端口号
+
+  .env.development文件中,添加port属性: port = 8888
+
+  // vue.conifg.js
+  // 运行npm run dev时: 如果生产环境文件内没有设置prot,则使用9528端口号
+  // 运行npm run build:prod时: 如果生产环境文件内没有设置prot,则使用9528端口号
+  const port = process.env.port || process.env.npm_config_port || 9528 // dev port
+
+  // 在vue.config.js的devServer对象中,设置端口号
+    devServer: {
+    port: port,
+    open: true,
+    overlay: {
+      warnings: false,
+      errors: true
+    },
+```
