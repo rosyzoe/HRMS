@@ -13,30 +13,33 @@
       <span class="breadBtn">体验版</span>
     </div>
 
+    <!-- 顶部导航-右侧 -->
     <div class="right-menu">
+      <!-- 下拉菜单组件 -->
       <el-dropdown class="avatar-container" trigger="click">
+        <!-- 菜单左侧 -->
         <div class="avatar-wrapper">
-          <img :src="avatar + '?imageView2/1/w/80/h/80'" class="user-avatar" />
-          <i class="el-icon-caret-bottom" />
+          <!-- 头像 -->
+          <img src="@/assets/images/bigUserHeader.png" class="user-avatar" />
+          <!-- 用户名 -->
+          <span class="name">管理员</span>
+          <!-- 右侧箭头 -->
+          <i class="el-icon-caret-bottom" style="color: #fff" />
         </div>
+
+        <!-- 下拉菜单的每一项 -->
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
+          <!-- 首页 -->
           <router-link to="/">
-            <el-dropdown-item> Home </el-dropdown-item>
+            <el-dropdown-item> 首页 </el-dropdown-item>
           </router-link>
-          <a
-            target="_blank"
-            href="https://github.com/PanJiaChen/vue-admin-template/"
-          >
-            <el-dropdown-item>Github</el-dropdown-item>
+          <!-- 项目地址 -->
+          <a target="_blank" href="https://gitee.com/shuiruohanyu/hrsaas53">
+            <el-dropdown-item> 项目地址 </el-dropdown-item>
           </a>
-          <a
-            target="_blank"
-            href="https://panjiachen.github.io/vue-element-admin-site/#/"
-          >
-            <el-dropdown-item>Docs</el-dropdown-item>
-          </a>
+          <!-- 退出登录 -->
           <el-dropdown-item divided @click.native="logout">
-            <span style="display: block">Log Out</span>
+            <span style="display: block">退出登录</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -139,21 +142,36 @@ export default {
       margin-right: 30px;
 
       .avatar-wrapper {
-        margin-top: 5px;
+        // margin-top: 5px;
         position: relative;
 
+        // 头像
         .user-avatar {
           cursor: pointer;
-          width: 40px;
-          height: 40px;
-          border-radius: 10px;
+          width: 30px;
+          height: 30px;
+          border-radius: 15px;
+          vertical-align: middle;
+          margin-right: 10px;
         }
 
+        // name
+        .name {
+          color: #fff;
+          vertical-align: middle;
+          margin-left: 5px;
+        }
+
+        .user-dropdown {
+          color: #fff;
+        }
+
+        // 下拉 icon 图标位置
         .el-icon-caret-bottom {
           cursor: pointer;
           position: absolute;
           right: -20px;
-          top: 25px;
+          top: 20px;
           font-size: 12px;
         }
       }
