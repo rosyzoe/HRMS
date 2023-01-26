@@ -29,7 +29,9 @@ const mutations = {
 }
 
 const actions = {
-  // 用户登录
+  /**
+   * @param {object} data 用户登录信息: 手机号,密码
+   */
   async loginAction({ commit }, data) {
     // 获取返回的数据
     const res = await userLoginAPI(data)

@@ -122,3 +122,18 @@ service.interceptors.request.use(
     }
   }
 ```
+
+## 6.登录模块优化
+
+```js
+在vuex中的actions发起登录请求
+const actions = {
+  // 用户登录
+  async loginAction({ commit }, data) {
+    // 获取返回的数据
+    const res = await userLoginAPI(data)
+    // 设置token
+    commit('SET_TOKEN', res.data)
+  }
+}
+```
