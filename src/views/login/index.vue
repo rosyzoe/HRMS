@@ -146,9 +146,21 @@ export default {
           // 放入可能报错的代码
           try {
             // 调用请求接口
-            this.$store.dispatch('user/loginAction', this.loginForm)
+            const res = await this.$store.dispatch(
+              'user/loginAction',
+              this.loginForm
+            )
+
+            // 登陆成功,提示弹窗
+            this.$message.success(res.message)
+
+            // 跳转到首页
+            this.$router.replace('/')
           } catch (error) {
             console.dir(error)
+          } finally {
+            // 无论登陆成功还是失败,都将登录按钮的加载状态移除
+            this.loading = false
           }
         } else {
           // 返回false,直接将登录表单标红
