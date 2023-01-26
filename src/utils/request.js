@@ -54,7 +54,7 @@ service.interceptors.response.use(
       // 重置用户基本资料
       store.commit('user/RESET_USERINFO')
       // 跳转到登录页
-      router.replace('/login')
+      router.replace(`/login?redirect=${this.$route.fullPath}`) // 未遂地址
     }
     return Promise.reject(error)
   }

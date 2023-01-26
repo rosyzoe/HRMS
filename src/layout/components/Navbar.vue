@@ -81,7 +81,7 @@ export default {
             message: '已成功退出系统!'
           })
           await this.$store.dispatch('user/logoutAction')
-          router.push('/login')
+          router.replace(`/login?redirect=${this.$route.fullPath}`)
         })
         .catch(() => {
           this.$message({

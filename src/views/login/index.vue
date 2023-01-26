@@ -154,8 +154,8 @@ export default {
             // 登陆成功,提示弹窗
             this.$message.success(res.message)
 
-            // 跳转到首页
-            this.$router.replace('/')
+            // 如果有未遂地址就跳转到未遂地址,没有未遂地址则跳转到首页
+            this.$router.replace(this.$route.query.redirect || '/')
           } catch (error) {
             console.dir(error)
           } finally {

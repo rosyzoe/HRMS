@@ -295,3 +295,20 @@ router.afterEach(() => {
     3.将获取到的员工基本信息和用户基本资料合并在一起,然后通过mutations保存到state
     4.store/getters.js: 设置快捷访问 avatar: (state) => state.user.userInfo.staffPhoto
     5.在navBar组件中使用此计算属性实现动态显示头像
+
+## 9.需求: 主页顶部导航右侧菜单点击退出实现主动退出登录
+
+    1.store/modules/user.js: 新建退出的actions(logoutAction),通过调用RESEET_TOKEN和RESET_USERINFO这两个mutation, 实现重置token为空字符串和重置用户基本资料为空对象
+    2.navBar组件: 新建logout函数,当点击右侧菜单中的退出按钮时触发
+    3.logout函数中引入this.$confirm提示组件,点击确定退出后,开始派发vuex中退出登录的action,并跳转到登录页面,点击取消时提示已取消退出
+
+## 10.需求: 实现登录未遂地址
+
+    想要实现登录未遂功能首先要搞清楚$route中的fullPath和path属性
+    path: 只记录了当前的路径地址,例如: /info
+    fullPath: 记录了当前的完整路径地址和参数,例如: /info?username=aaa&age=10
+
+    1.在主动退出和被动退出(token过期)登录时,需要通过this.$route记录下来当前路径信息,然后携带到首页
+        this.router.replace(`/login?redirect=${this.$route.fullPath}`)
+    2.在首页登录成功后,判断一下是否有登录未遂地址,如果有就跳转到未遂地址,没有则正常进入首页
+        this.router.replace(this.router.query.redirect || "/")
