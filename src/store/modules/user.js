@@ -1,10 +1,12 @@
 import { getToken, setToken, removeToken } from '@/utils/auth'
-import { userLoginAPI } from '@/api'
+import { userLoginAPI, getUserProfileAPI } from '@/api'
 
 const getDefaultState = () => {
   return {
     // token
-    token: getToken() // 从本地取出token,实现持久化
+    token: getToken(), // 从本地取出token,实现持久化
+    // 用户基本资料
+    userInfo: {}
   }
 }
 
@@ -25,6 +27,16 @@ const mutations = {
   RESET_TOKEN: (state) => {
     state.token = '' // 重置state内的token
     removeToken() // 移除本地中的token
+  },
+
+  // 设置用户基本资料
+  SET_USERINFO: (state, value) => {
+    state.userInfo = value
+  },
+
+  // 重置用户基本资料
+  RESET_USERINFO: (state) => {
+    state.userInfo = {}
   }
 }
 
@@ -37,8 +49,15 @@ const actions = {
     const res = await userLoginAPI(data)
     // 设置token
     commit('SET_TOKEN', res.data)
-    console.log('登陆成功')
     return res // 返回请求到的数据
+  },
+
+  // 获取用户的基本资料
+  async getUserProfileAction({ commit }) {
+    const { data: userObj } = await getUserProfileAPI()
+
+    // 修改state
+    commit('SET_USERINFO', userObj)
   }
 }
 

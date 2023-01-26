@@ -20,6 +20,9 @@ router.beforeEach((to, from, next) => {
       // 关闭进度条
       nprogress.done()
     } else {
+      // 当切换页面时,判断vuex中是否存有用户信息,如果不存在则在这里派发actions获取用户信息
+      if (!store.getters.name) store.dispatch('user/getUserProfileAction')
+
       // 跳转到其他页面则放行
       next()
     }

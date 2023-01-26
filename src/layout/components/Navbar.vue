@@ -22,7 +22,7 @@
           <!-- 头像 -->
           <img src="@/assets/images/bigUserHeader.png" class="user-avatar" />
           <!-- 用户名 -->
-          <span class="name">管理员</span>
+          <span class="name">{{ name }}</span>
           <!-- 右侧箭头 -->
           <i class="el-icon-caret-bottom" style="color: #fff" />
         </div>
@@ -48,20 +48,26 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import Hamburger from '@/components/Hamburger'
+import { mapGetters } from 'vuex' // 引入映射计算属性的hook
+import Hamburger from '@/components/Hamburger' // 引入汉堡包组件
 
 export default {
   components: {
-    Hamburger
+    Hamburger // 注册汉堡包组件
   },
+
+  // 计算属性
   computed: {
-    ...mapGetters(['sidebar', 'avatar'])
+    // 从vuex中的getters.js文件中映射
+    ...mapGetters(['sidebar', 'avatar', 'name'])
   },
   methods: {
+    // 控制展开/收起左侧边栏
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
     },
+
+    // 退出登录
     async logout() {
       await this.$store.dispatch('user/logout')
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
