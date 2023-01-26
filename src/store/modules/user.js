@@ -24,7 +24,7 @@ const mutations = {
   },
 
   // 重置token
-  RESET_TOKEN: (state) => {
+  RESET_TOKEN: () => {
     state.token = '' // 重置state内的token
     removeToken() // 移除本地中的token
   },

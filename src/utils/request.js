@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
 import store from '@/store'
+import router from '@/router'
 
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
@@ -35,8 +36,26 @@ service.interceptors.response.use(
     }
   },
   (error) => {
+    console.dir(error)
     // 错误状态码400的时候,给出弹窗提示
-    Message.error((error && error.data && error.data.message) || error.message)
+    Message.error(
+      (error.response && error.response.data && error.response.data.message) ||
+        error.message
+    )
+
+    // 根据返回的code码判断用户token是否已过期
+    if (
+      error.response &&
+      error.response.data &&
+      error.response.data.code === 10002
+    ) {
+      // 移除本地和vuex中的token
+      store.commit('user/RESET_TOKEN')
+      // 重置用户基本资料
+      store.commit('user/RESET_USERINFO')
+      // 跳转到登录页
+      router.replace('/login')
+    }
     return Promise.reject(error)
   }
 )
