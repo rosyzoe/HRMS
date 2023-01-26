@@ -2,6 +2,8 @@ import router from './router'
 import store from './store'
 import nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
+import setPageTitle from '@/utils/get-page-title'
+
 // 白名单
 const whiteList = ['/login', '/404']
 
@@ -39,7 +41,8 @@ router.beforeEach((to, from, next) => {
   }
 })
 
-router.afterEach(() => {
+router.afterEach((to, from) => {
+  document.title = setPageTitle(to.meta.title)
   // 关闭进度条
   nprogress.done()
 })
