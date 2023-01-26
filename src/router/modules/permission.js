@@ -10,7 +10,7 @@ export default {
       name: 'Permission', // 给路由规则加一个name
       component: () => import('@/views/permission'),
       // 路由元信息  其实就是存储数据的对象 我们可以在这里放置一些信息
-      meta: { title: '权限管理' }
+      meta: { title: '权限管理', icon: 'lock' }
     }
   ]
 }

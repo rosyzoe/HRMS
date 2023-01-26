@@ -10,7 +10,7 @@ export default {
       name: 'Departments', // 给路由规则加一个name
       component: () => import('@/views/departments'),
       // 路由元信息  其实就是存储数据的对象 我们可以在这里放置一些信息
-      meta: { title: '组织架构' }
+      meta: { title: '组织架构', icon: 'tree' }
     }
   ]
 }
