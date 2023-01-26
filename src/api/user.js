@@ -25,3 +25,10 @@ export const getUserProfileAPI = () =>
     url: '/sys/profile',
     method: 'POST'
   })
+
+// 获取员工的基本信息-这里只为了获取员工头像
+export const getUserPhotoAPI = (id) =>
+  request({
+    url: `/sys/user/${id}`,
+    method: 'GET'
+  })

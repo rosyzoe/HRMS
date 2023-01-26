@@ -1,5 +1,5 @@
 import { getToken, setToken, removeToken } from '@/utils/auth'
-import { userLoginAPI, getUserProfileAPI } from '@/api'
+import { userLoginAPI, getUserProfileAPI, getUserPhotoAPI } from '@/api'
 
 const getDefaultState = () => {
   return {
@@ -55,9 +55,11 @@ const actions = {
   // 获取用户的基本资料
   async getUserProfileAction({ commit }) {
     const { data: userObj } = await getUserProfileAPI()
+    const { data: staffObj } = await getUserPhotoAPI(userObj.userId)
 
+    const obj = { ...userObj, ...staffObj }
     // 修改state
-    commit('SET_USERINFO', userObj)
+    commit('SET_USERINFO', obj)
   }
 }
 

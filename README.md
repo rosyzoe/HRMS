@@ -269,3 +269,29 @@ router.afterEach(() => {
 ## 4.修改主页顶部导航的左侧结构和样式
 
 ## 5.修改主页顶部导航的右侧菜单的内容和样式
+
+## 6.动态显示顶部导航右侧的用户名
+
+      1.src/api: 封装获取用户基本资料的接口
+      2.在vuex中设置保存用户资料的空对象
+      3.增加修改和重置用户资料对象的mutations: SET_USERINFO, RESET_USERINFO
+      4.新建获取用户基本资料的actions: getUserProfileAction
+          将获取到的用户基本资料,通过SET_USERINFO修改state
+      5.修改store/getters.js: name: (state) => state.user.userInfo.username
+      6.将getters里的name变量映射到navBar组件, 并使用
+      6.在路由前置守卫里判断getteers中的name变量是否存在, 如果不存在则在路由跳转之前(next函数前),派发action获取用户基本资料并通过mutations修改state实现设置资料
+
+## 7.token 的过期的处理
+
+    当过了一段时间后,token会自动过期(后端控制)
+    前端可以通过后端提供的字段来判定token是否过期,例如状态码,code码
+    在响应拦截器中,获取错误信息,通过返回的code码来判定token是否过期
+    如果tokne已过期: 引入vuex实例,调用移除token和重置用户资料的mutations,然后强制跳转到登录页实现过期处理
+
+## 8.需求: 主页顶部导航右侧显示头像
+
+    1.src/api/user.js: 定义获取员工基本信息的接口(这里只为了获取员工头像)
+    2.store/modules/user.js: 引入获取员工基本信息接口,在获取用户基本资料的actions中,调用并传入用户资料中的id,获取数据
+    3.将获取到的员工基本信息和用户基本资料合并在一起,然后通过mutations保存到state
+    4.store/getters.js: 设置快捷访问 avatar: (state) => state.user.userInfo.staffPhoto
+    5.在navBar组件中使用此计算属性实现动态显示头像

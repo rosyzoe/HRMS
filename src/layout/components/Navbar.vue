@@ -20,7 +20,7 @@
         <!-- 菜单左侧 -->
         <div class="avatar-wrapper">
           <!-- 头像 -->
-          <img src="@/assets/images/bigUserHeader.png" class="user-avatar" />
+          <img :src="avatar" class="user-avatar" />
           <!-- 用户名 -->
           <span class="name">{{ name }}</span>
           <!-- 右侧箭头 -->
