@@ -308,7 +308,8 @@ router.afterEach(() => {
     path: 只记录了当前的路径地址,例如: /info
     fullPath: 记录了当前的完整路径地址和参数,例如: /info?username=aaa&age=10
 
-    1.在主动退出和被动退出(token过期)登录时,需要通过this.$route记录下来当前路径信息,然后携带到首页
-        this.router.replace(`/login?redirect=${this.$route.fullPath}`)
+    1.在主动退出和被动退出(token过期)登录时,需要通过this.$route或router记录下来当前路径信息,然后携带到首页
+       主动退出:  this.router.replace(`/login?redirect=${this.$route.fullPath}`)
+       被动退出:  router.replace(`/login?redirect=${router.currentRoute.fullPath}`) // 未遂地址
     2.在首页登录成功后,判断一下是否有登录未遂地址,如果有就跳转到未遂地址,没有则正常进入首页
         this.router.replace(this.router.query.redirect || "/")
