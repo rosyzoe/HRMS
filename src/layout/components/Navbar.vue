@@ -50,6 +50,7 @@
 <script>
 import { mapGetters } from 'vuex' // 引入映射计算属性的hook
 import Hamburger from '@/components/Hamburger' // 引入汉堡包组件
+import router from '@/router'
 
 export default {
   components: {
@@ -67,10 +68,27 @@ export default {
       this.$store.dispatch('app/toggleSideBar')
     },
 
-    // 退出登录
-    async logout() {
-      await this.$store.dispatch('user/logout')
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+    // 点击退出登录
+    logout() {
+      this.$confirm('确认要退出系统吗?', '退出登录', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(async () => {
+          this.$message({
+            type: 'success',
+            message: '已成功退出系统!'
+          })
+          await this.$store.dispatch('user/logoutAction')
+          router.push('/login')
+        })
+        .catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消退出系统!'
+          })
+        })
     }
   }
 }

@@ -60,6 +60,12 @@ const actions = {
     const obj = { ...userObj, ...staffObj }
     // 修改state
     commit('SET_USERINFO', obj)
+  },
+
+  // 用户退出登录
+  async logoutAction({ commit }) {
+    await commit('RESET_TOKEN') // 重置token为空字符串
+    await commit('RESET_USERINFO') // 重置用户资料为空对象
   }
 }
 
