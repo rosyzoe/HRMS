@@ -1,4 +1,4 @@
-## 1.项目初始化
+# 1.项目初始化
 
 ```js
   1.拉取项目: git clone vue-element-template
@@ -8,7 +8,7 @@
   5.图片资源: 引入公用的图片资源
 ```
 
-## 2.登录模块
+# 2.登录模块
 
 ```js
   1.更换登录页面背景图片: login-container下设置
@@ -158,4 +158,108 @@ const actions = {
       warnings: false,
       errors: true
     },
+```
+
+# 8.主页模块
+
+## 1.登录成功后跳转到首页
+
+```js
+      // 点击登录按钮
+    handleLogin() {
+      // 表单兜底校验
+      this.$refs.loginForm.validate(async (valid) => {
+        // 判断表单是否全部通过验证
+        if (valid) {
+          // 开启登录按钮的加载状态
+          this.loading = true
+
+          // 放入可能报错的代码
+          try {
+            // 调用请求接口
+            + const res = await this.$store.dispatch(
+              'user/loginAction',
+              this.loginForm
+            )
+
+            // 登陆成功,提示弹窗
+            + this.$message.success(res.message)
+
+            // 跳转到首页
+            + this.$router.replace('/')
+          } catch (error) {
+            console.dir(error)
+          } finally {
+            // 无论登陆成功还是失败,都将登录按钮的加载状态移除
+            this.loading = false
+          }
+        } else {
+          // 返回false,直接将登录表单标红
+          return false
+        }
+      })
+    }
+
+    // vuex/user
+    const actions = {
+    /**
+     * @param {object} data 用户登录信息: 手机号,密码
+     */
+    async loginAction({ commit }, data) {
+      // 获取返回的数据
+      const res = await userLoginAPI(data)
+      // 设置token
+      commit('SET_TOKEN', res.data)
+      console.log('登陆成功')
+      + return res // 返回请求到的数据
+    }
+  }
+```
+
+## 2.权限拦截控制和开启/关闭加载进度条
+
+```js
+import router from './router'
+import store from './store'
+import nprogress from 'nprogress'
+import 'nprogress/nprogress.css'
+// 白名单
+const whiteList = ['/login', '/404']
+
+router.beforeEach((to, from, next) => {
+  nprogress.start() // 开启加载进度条
+
+  // 从vuex中取出token
+  const token = store.getters.token
+
+  // 查看vuex中是否存有token,如果存有token代表用户已登录
+  if (token) {
+    // 判断已登录用户所要去的页面
+    if (to.path === '/login') {
+      // 如果已登录用户所要去的页面是登录页,则强制跳转到首页
+      next('/')
+      // 关闭进度条
+      nprogress.done()
+    } else {
+      // 跳转到其他页面则放行
+      next()
+    }
+  } else {
+    // vuex中不存在token,代表用户未登录
+    if (whiteList.includes(to.path)) {
+      // 如果未登录用户所要去的页面存在于白名单内,则放行
+      next()
+    } else {
+      // 白名单内不包含所要去的页面则跳转到登录页
+      next('/login')
+      // 关闭进度条
+      nprogress.done()
+    }
+  }
+})
+
+router.afterEach(() => {
+  // 关闭进度条
+  nprogress.done()
+})
 ```

@@ -38,7 +38,7 @@ const actions = {
     // 设置token
     commit('SET_TOKEN', res.data)
     console.log('登陆成功')
-    return res
+    return res // 返回请求到的数据
   }
 }
 
