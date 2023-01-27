@@ -1,12 +1,13 @@
 <template>
   <div class="depart-dialog">
     <el-dialog
-      title="提示"
+      title="添加子部门"
       :visible.sync="showDialog"
       :close-on-click-modal="false"
       :close-on-press-escape="false"
       :show-close="false"
       width="50%"
+      center
     >
       <el-form ref="deptForm" label-width="120px">
         <el-form-item label="部门名称">
@@ -17,7 +18,7 @@
         </el-form-item>
         <el-form-item label="部门负责人">
           <el-select v-model="form.manager" style="width: 80%" placeholder="请选择">
-            <el-option value="1" />
+            <el-option v-for="item in departSimpleList" :key="item.id" :value="item.username" />
           </el-select>
         </el-form-item>
         <el-form-item label="部门介绍">
@@ -47,6 +48,12 @@ export default {
     showDialog: {
       type: Boolean,
       default: false
+    },
+
+    // 部门负责人列表
+    departSimpleList: {
+      type: Array,
+      default: () => []
     }
   },
   data() {

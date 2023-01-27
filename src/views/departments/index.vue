@@ -31,7 +31,7 @@
                           <i class="el-icon-arrow-down el-icon--right"></i>
                         </span>
                         <el-dropdown-menu slot="dropdown">
-                          <el-dropdown-item>添加子部门</el-dropdown-item>
+                          <el-dropdown-item @click.native="addBtn">添加子部门</el-dropdown-item>
                         </el-dropdown-menu>
                       </el-dropdown>
                     </el-col>
@@ -81,7 +81,10 @@
           </el-tabs>
 
           <!-- dialog弹窗 -->
-          <DepartDialog :show-dialog.sync="showDialog"></DepartDialog>
+          <DepartDialog
+            :show-dialog.sync="showDialog"
+            :depart-simple-list="departSimpleList"
+          ></DepartDialog>
         </template>
       </el-card>
     </div>
@@ -89,7 +92,7 @@
 </template>
 
 <script>
-import { getDepartmentAPI } from '@/api'
+import { getDepartmentAPI, getDepartmentSimpleAPI } from '@/api'
 import { transTree } from '@/utils'
 import DepartDialog from './components/departDialog.vue'
 export default {
@@ -100,8 +103,10 @@ export default {
     return {
       // tab标签页选中状态
       tabActive: 'first',
+
       // 树形控件数据
       treeData: [],
+
       // 定义树形控件的结构显示
       defaultProps: {
         children: 'children',
@@ -109,17 +114,28 @@ export default {
       },
 
       // 控制dialog弹出框的显示/隐藏
-      showDialog: false
+      showDialog: false,
+
+      // 部门负责人列表
+      departSimpleList: []
     }
   },
   mounted() {
     this.getDepartmentListFn()
+    this.getDepartmentSimpleFn()
   },
   methods: {
     // 获取部门列表数据
     async getDepartmentListFn() {
       const res = await getDepartmentAPI()
       this.treeData = transTree(res.data.depts, '')
+    },
+
+    // 获取部门负责人数据
+    async getDepartmentSimpleFn() {
+      const res = await getDepartmentSimpleAPI()
+      // 将获取到的部门负责人列表保存到data
+      this.departSimpleList = res.data.splice(0, 100)
     },
 
     // 点击添加子部门
