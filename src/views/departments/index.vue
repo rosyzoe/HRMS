@@ -66,7 +66,7 @@
                             <span> 操作<i class="el-icon-arrow-down" /> </span>
                             <!-- 下拉菜单 -->
                             <el-dropdown-menu slot="dropdown">
-                              <el-dropdown-item>添加子部门</el-dropdown-item>
+                              <el-dropdown-item @click.native="addBtn">添加子部门</el-dropdown-item>
                               <el-dropdown-item>编辑部门</el-dropdown-item>
                               <el-dropdown-item>删除部门</el-dropdown-item>
                             </el-dropdown-menu>
@@ -79,6 +79,9 @@
               </el-tree>
             </el-tab-pane>
           </el-tabs>
+
+          <!-- dialog弹窗 -->
+          <DepartDialog :show-dialog.sync="showDialog"></DepartDialog>
         </template>
       </el-card>
     </div>
@@ -88,7 +91,11 @@
 <script>
 import { getDepartmentAPI } from '@/api'
 import { transTree } from '@/utils'
+import DepartDialog from './components/departDialog.vue'
 export default {
+  components: {
+    DepartDialog
+  },
   data() {
     return {
       // tab标签页选中状态
@@ -99,7 +106,10 @@ export default {
       defaultProps: {
         children: 'children',
         label: 'departName'
-      }
+      },
+
+      // 控制dialog弹出框的显示/隐藏
+      showDialog: false
     }
   },
   mounted() {
@@ -109,8 +119,12 @@ export default {
     // 获取部门列表数据
     async getDepartmentListFn() {
       const res = await getDepartmentAPI()
-      console.log(res)
       this.treeData = transTree(res.data.depts, '')
+    },
+
+    // 点击添加子部门
+    addBtn() {
+      this.showDialog = true
     }
   }
 }
