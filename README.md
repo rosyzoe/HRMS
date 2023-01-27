@@ -313,3 +313,85 @@ router.afterEach(() => {
        被动退出:  router.replace(`/login?redirect=${router.currentRoute.fullPath}`) // 未遂地址
     2.在首页登录成功后,判断一下是否有登录未遂地址,如果有就跳转到未遂地址,没有则正常进入首页
         this.router.replace(this.router.query.redirect || "/")
+
+# 9.路由
+
+## 1.理解静态路由表和动态路由表
+
+    静态路由表：不需要做权限控制的路由，每个用户都可以正常访问。
+    动态路由表：需要做权限控制的路由，用户如果权限不一致访问到的路由也不一样。
+
+## 2.拆分静态和动态路由表
+
+```js
+// 动态路由表，项目中不同的用户可以访问不同的功能
+export const asyncRoutes = [
+  // 先空着这里，后面来补充功能
+]
+
+// 静态路由表，项目中每个用户都可以访问的功能
+export const constantRoutes = [
+  // 省略....
+]
+
+const createRouter = () =>
+  new Router({
+    // 控制路由滚动行为  滚动到顶部
+    scrollBehavior: () => ({ y: 0 }),
+    // 组合到一起组成路由表
+    routes: [...constantRoutes, ...asyncRoutes]
+  })
+```
+
+## 3.创建其他 8 个功能页面并配置路由到动态路由表
+
+```js
+export const asyncRoutes = [
+  {
+    path: '/approvals', // 审批
+    component: Layout,
+    children: [
+      {
+        path: '',
+        name: 'Approvals',
+        component: () => import('@/views/approvals'),
+        meta: { title: '审批' }
+      }
+    ]
+  }
+]
+```
+
+## 4.模块化管理动态路由
+
+```js
+// 对router.js路由表中的动态路由进行物理目录拆分，实现真正的**模块化**管理
+// 把每一个路由配置单独写在一个文件中，然后再统一导入使用
+// src/router: 新建modules文件夹,文件夹内创建八个.js的路由文件
+//  创建路由文件
+echo > departments.js
+
+// 文件内容
+import Layout from '@/layout'
+
+// Layout 组件中包含
+export default {
+  path: '/approvals', // 路径
+  component: Layout, // 组件
+  children: [
+    {
+      path: '', // 这里当二级路由的 path 什么都不写的时候 表示当前路由为默认路由直接渲染对应组件
+      name: 'Approvals', // 给路由规则加一个 name
+      component: () => import('@/views/approvals'),
+      // 路由元信息 其实就是存储数据的对象 我们可以在这里放置一些信息
+      meta: { title: '审批' }
+    }
+  ]
+}
+```
+
+## 5.设置菜单图标
+
+## 6.设置菜单选中高亮
+
+## 7.动态设置网页标题
