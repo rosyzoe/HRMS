@@ -53,13 +53,13 @@
                   >
                     <!-- 部门名字 -->
                     <el-col :span="20">
-                      <span>{{ data.departName }}</span>
+                      <span>{{ data.name }}</span>
                     </el-col>
                     <!-- 功能操作区域 -->
                     <el-col :span="4">
                       <el-row type="flex" justify="end">
                         <!-- 两个内容 -->
-                        <el-col>{{ data.name }}</el-col>
+                        <el-col>{{ data.manager }}</el-col>
                         <el-col>
                           <!-- 下拉菜单 element -->
                           <el-dropdown>
@@ -86,79 +86,31 @@
 </template>
 
 <script>
+import { getDepartmentAPI } from '@/api'
+import { transTree } from '@/utils'
 export default {
   data() {
     return {
       // tab标签页选中状态
       tabActive: 'first',
       // 树形控件数据
-      treeData: [
-        {
-          departName: '总裁办',
-          name: '孙财'
-        },
-        {
-          departName: '行政部',
-          name: '罗晓晓'
-        },
-        {
-          departName: '人事部',
-          name: '安小晴',
-          children: [
-            {
-              departName: '财务核算部'
-            }
-          ]
-        },
-        {
-          departName: '财务部',
-          name: '',
-          children: [
-            {
-              departName: '财务核算部'
-            },
-            {
-              departName: '税务管理部'
-            },
-            {
-              departName: '薪资管理部'
-            }
-          ]
-        },
-        {
-          departName: '技术部',
-          name: '',
-          children: [
-            {
-              departName: '前端技术部'
-            },
-            {
-              departName: '后端技术部'
-            }
-          ]
-        },
-        {
-          departName: '运营部',
-          name: ''
-        },
-        {
-          departName: '市场部',
-          name: '武高丽',
-          children: [
-            {
-              departName: '市场部1'
-            },
-            {
-              departName: '市场部2'
-            }
-          ]
-        }
-      ],
-      // 定义结构显示
+      treeData: [],
+      // 定义树形控件的结构显示
       defaultProps: {
         children: 'children',
         label: 'departName'
       }
+    }
+  },
+  mounted() {
+    this.getDepartmentListFn()
+  },
+  methods: {
+    // 获取部门列表数据
+    async getDepartmentListFn() {
+      const res = await getDepartmentAPI()
+      console.log(res)
+      this.treeData = transTree(res.data.depts, '')
     }
   }
 }
