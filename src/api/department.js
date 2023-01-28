@@ -52,3 +52,22 @@ export const getDepartmentDetailAPI = (id) =>
     url: `/company/department/${id}`,
     method: 'GET'
   })
+
+/**
+ * 根据部门id修改部门详情
+ * @param {string} id 部门id
+ * @param {object} data 部门表单信息
+ * @returns
+ */
+export const changeDepartDetailAPI = (data) =>
+  request({
+    url: `/company/department/${data.id}`,
+    method: 'PUT',
+    data
+  })
+
+export const deleteDepartmentAPI = (id) =>
+  request({
+    url: `/company/department/${id}`,
+    method: 'DELETE'
+  })

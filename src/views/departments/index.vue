@@ -68,7 +68,7 @@
                             <el-dropdown-menu slot="dropdown">
                               <el-dropdown-item @click.native="addBtn(data)">添加子部门</el-dropdown-item>
                               <el-dropdown-item @click.native="editBtn(data)">编辑部门</el-dropdown-item>
-                              <el-dropdown-item>删除部门</el-dropdown-item>
+                              <el-dropdown-item @click.native="deleteBtn(data)">删除部门</el-dropdown-item>
                             </el-dropdown-menu>
                           </el-dropdown>
                         </el-col>
@@ -94,7 +94,14 @@
 </template>
 
 <script>
-import { getDepartmentAPI, getDepartmentSimpleAPI, addDepartmentAPI, getDepartmentDetailAPI } from '@/api'
+import {
+  getDepartmentAPI,
+  getDepartmentSimpleAPI,
+  addDepartmentAPI,
+  getDepartmentDetailAPI,
+  changeDepartDetailAPI,
+  deleteDepartmentAPI
+} from '@/api'
 import { transTree } from '@/utils'
 import DepartDialog from './components/departDialog.vue'
 export default {
@@ -122,10 +129,12 @@ export default {
       departSimpleList: [],
 
       // 新增部门的父级pid字段
-      pid: ''
+      pid: '',
 
       // 根据部门id查询到的部门信息
       // departmentDetailById: {}
+
+      isEdit: false
     }
   },
   mounted() {
@@ -148,6 +157,7 @@ export default {
 
     // 点击添加子部门
     addBtn(data) {
+      this.isEdit = false
       // 将父级部门id保存到data
       this.pid = data.id
       // 显示dialog
@@ -156,20 +166,33 @@ export default {
 
     // 接收子组件传过来的新增部门表单数据
     async getAddFormData(addForm) {
-      addForm.pid = this.pid
-      // 调用新增部门接口
-      await addDepartmentAPI(addForm)
+      if (this.isEdit) {
+        addForm.id = this.pid
+        await changeDepartDetailAPI(addForm)
+      } else {
+        addForm.pid = this.pid
+        // 调用新增部门接口
+        await addDepartmentAPI(addForm)
+      }
+
       // 部门添加完成, === await成功, 重新请求组织架构列表数据,实现刷新
       this.getDepartmentListFn()
     },
 
     // 点击编辑部门
     async editBtn(data) {
+      this.isEdit = true
       this.showDialog = true
       // 接收查询到的部门信息
       const res = await getDepartmentDetailAPI(data.id)
       // this.departmentDetailById = res.data
       this.$refs.departDialogRef.form = res.data
+    },
+
+    // 点击删除部门
+    async deleteBtn(data) {
+      await deleteDepartmentAPI(data.id)
+      this.getDepartmentListFn()
     }
   }
 }
