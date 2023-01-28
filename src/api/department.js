@@ -41,3 +41,14 @@ export const addDepartmentAPI = ({ name, code, manager, introduce, pid }) =>
       pid
     }
   })
+
+/**
+ * 根据部门id获取部门详情信息
+ * @param {string} id 部门id
+ * @returns promise
+ */
+export const getDepartmentDetailAPI = (id) =>
+  request({
+    url: `/company/department/${id}`,
+    method: 'GET'
+  })

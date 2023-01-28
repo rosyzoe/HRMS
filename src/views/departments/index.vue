@@ -67,7 +67,7 @@
                             <!-- 下拉菜单 -->
                             <el-dropdown-menu slot="dropdown">
                               <el-dropdown-item @click.native="addBtn(data)">添加子部门</el-dropdown-item>
-                              <el-dropdown-item>编辑部门</el-dropdown-item>
+                              <el-dropdown-item @click.native="editBtn(data)">编辑部门</el-dropdown-item>
                               <el-dropdown-item>删除部门</el-dropdown-item>
                             </el-dropdown-menu>
                           </el-dropdown>
@@ -82,6 +82,7 @@
 
           <!-- dialog弹窗 -->
           <DepartDialog
+            ref="departDialogRef"
             :show-dialog.sync="showDialog"
             :depart-simple-list="departSimpleList"
             @addFormData="getAddFormData"
@@ -93,7 +94,7 @@
 </template>
 
 <script>
-import { getDepartmentAPI, getDepartmentSimpleAPI, addDepartmentAPI } from '@/api'
+import { getDepartmentAPI, getDepartmentSimpleAPI, addDepartmentAPI, getDepartmentDetailAPI } from '@/api'
 import { transTree } from '@/utils'
 import DepartDialog from './components/departDialog.vue'
 export default {
@@ -122,6 +123,9 @@ export default {
 
       // 新增部门的父级pid字段
       pid: ''
+
+      // 根据部门id查询到的部门信息
+      // departmentDetailById: {}
     }
   },
   mounted() {
@@ -157,6 +161,15 @@ export default {
       await addDepartmentAPI(addForm)
       // 部门添加完成, === await成功, 重新请求组织架构列表数据,实现刷新
       this.getDepartmentListFn()
+    },
+
+    // 点击编辑部门
+    async editBtn(data) {
+      this.showDialog = true
+      // 接收查询到的部门信息
+      const res = await getDepartmentDetailAPI(data.id)
+      // this.departmentDetailById = res.data
+      this.$refs.departDialogRef.form = res.data
     }
   }
 }

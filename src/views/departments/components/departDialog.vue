@@ -54,6 +54,12 @@ export default {
     departSimpleList: {
       type: Array,
       default: () => []
+    },
+
+    // 根据部门id查询部门信息
+    departmentDetailById: {
+      type: Object,
+      default: () => {}
     }
   },
   data() {
@@ -84,7 +90,11 @@ export default {
     }
   },
   computed: {},
-  watch: {},
+  watch: {
+    // departmentDetailById() {
+    //   this.form = this.departmentDetailById
+    // }
+  },
   created() {},
   methods: {
     // 点击取消按钮
