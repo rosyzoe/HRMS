@@ -6,7 +6,7 @@
           <el-tab-pane label="角色管理" name="first">
             <!-- 新增角色按钮 -->
             <el-row type="flex" justify="end">
-              <el-button class="addRoleBtn" size="small" type="primary">新增角色</el-button>
+              <el-button class="addRoleBtn" type="primary" @click="addRoleBtn">新增角色</el-button>
             </el-row>
 
             <!-- 表格区域 -->
@@ -57,6 +57,8 @@
           <el-pagination layout="prev, pager, next" :total="pageInfo.total" :page-size="5"> </el-pagination>
         </el-row>
       </el-card>
+
+      <handle-role-dialog ref="dialogRef" :get-all-role-list-fn="getAllRoleListFn"></handle-role-dialog>
     </div>
   </div>
 </template>
@@ -64,7 +66,11 @@
 <script>
 import { getAllRoleListAPI, getCompanyByIdAPI } from '@/api'
 import { mapGetters } from 'vuex'
+import HandleRoleDialog from './components/handleRoleDialog.vue'
 export default {
+  components: {
+    HandleRoleDialog
+  },
   data() {
     return {
       // tab选项卡的默认选中状态
@@ -107,6 +113,12 @@ export default {
     async getCompanyByIdFn() {
       const res = await getCompanyByIdAPI(this.companyId)
       this.companyInfo = res.data
+    },
+
+    // 点击新增角色
+    addRoleBtn() {
+      console.log('1')
+      this.$refs.dialogRef.isShowDialog = true
     }
   }
 }

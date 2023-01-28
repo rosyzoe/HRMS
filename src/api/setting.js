@@ -26,3 +26,19 @@ export const getCompanyByIdAPI = (id) =>
     url: `/company/${id}`,
     method: 'GET'
   })
+
+/**
+ * 新增角色
+ * @param {string} name 角色名称
+ * @param {string} description 角色描述
+ * @returns
+ */
+export const addRoleAPI = ({ name, description }) =>
+  request({
+    url: '/sys/role',
+    method: 'POST',
+    data: {
+      name,
+      description
+    }
+  })
