@@ -15,3 +15,14 @@ export const getAllRoleListAPI = ({ page, pagesize }) =>
       pagesize
     }
   })
+
+/**
+ * 根据企业id获取企业信息
+ * @param {string} id 企业id
+ * @returns promise
+ */
+export const getCompanyByIdAPI = (id) =>
+  request({
+    url: `/company/${id}`,
+    method: 'GET'
+  })
