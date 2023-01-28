@@ -42,3 +42,26 @@ export const addRoleAPI = ({ name, description }) =>
       description
     }
   })
+
+/**
+ * 根据角色id虎丘角色详情
+ * @param {*} id 角色id
+ * @returns promise
+ */
+export const getRoleDetailAPI = (id) =>
+  request({
+    url: `/sys/role/${id}`,
+    method: 'GET'
+  })
+
+/**
+ * 根据角色id更新角色信息
+ * @param {string} id 角色id
+ * @returns promise
+ */
+export const updateRoleDetailAPI = (data) =>
+  request({
+    url: `/sys/role/${data.id}`,
+    method: 'PUT',
+    data
+  })

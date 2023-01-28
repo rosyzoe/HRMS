@@ -15,9 +15,11 @@
               <el-table-column prop="name" label="名称" align="center"></el-table-column>
               <el-table-column prop="description" label="描述" align="center"></el-table-column>
               <el-table-column label="操作" align="center">
-                <el-button type="success" size="small">分配权限</el-button>
-                <el-button type="primarydanger" size="small">编辑</el-button>
-                <el-button type="danger" size="small">删除</el-button>
+                <template slot-scope="{ row }">
+                  <el-button type="success" size="small">分配权限</el-button>
+                  <el-button type="primarydanger" size="small" @click="editBtn(row)">编辑</el-button>
+                  <el-button type="danger" size="small">删除</el-button>
+                </template>
               </el-table-column>
             </el-table>
           </el-tab-pane>
@@ -58,13 +60,18 @@
         </el-row>
       </el-card>
 
-      <handle-role-dialog ref="dialogRef" :get-all-role-list-fn="getAllRoleListFn"></handle-role-dialog>
+      <handle-role-dialog
+        ref="dialogRef"
+        :get-all-role-list-fn="getAllRoleListFn"
+        :role-detail="roleDetail"
+        :is-edit="isEdit"
+      ></handle-role-dialog>
     </div>
   </div>
 </template>
 
 <script>
-import { getAllRoleListAPI, getCompanyByIdAPI } from '@/api'
+import { getAllRoleListAPI, getCompanyByIdAPI, getRoleDetailAPI } from '@/api'
 import { mapGetters } from 'vuex'
 import HandleRoleDialog from './components/handleRoleDialog.vue'
 export default {
@@ -87,7 +94,13 @@ export default {
       roleList: [],
 
       // 公司信息
-      companyInfo: {}
+      companyInfo: {},
+
+      // 根据角色id查询到的角色详情
+      roleDetail: {},
+
+      // 区分当前处于新增角色还是编辑角色状态
+      isEdit: true
     }
   },
   computed: {
@@ -117,8 +130,16 @@ export default {
 
     // 点击新增角色
     addRoleBtn() {
-      console.log('1')
+      this.isEdit = false
       this.$refs.dialogRef.isShowDialog = true
+    },
+
+    // 点击编辑角色
+    async editBtn(row) {
+      this.isEdit = true
+      this.$refs.dialogRef.isShowDialog = true
+      const res = await getRoleDetailAPI(row.id)
+      this.roleDetail = res.data
     }
   }
 }

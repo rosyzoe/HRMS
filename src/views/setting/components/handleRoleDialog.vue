@@ -30,14 +30,27 @@
 </template>
 
 <script>
-import { addRoleAPI } from '@/api'
+import { addRoleAPI, updateRoleDetailAPI } from '@/api'
 export default {
   name: 'HandleRoleDialog',
   components: {},
   props: {
+    // 接收父组件中的获取所有角色列表方法
     getAllRoleListFn: {
       type: Function,
       default: () => Function
+    },
+
+    // 接收父组件中根据角色id查询到的角色详情
+    roleDetail: {
+      type: Object,
+      default: () => {}
+    },
+
+    // 当前是否处于编辑状态
+    isEdit: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -59,7 +72,13 @@ export default {
     }
   },
   computed: {},
-  watch: {},
+  watch: {
+    // 侦听roleDetail数据的改变
+    roleDetail() {
+      // 发生改变时,就将改变后的数据赋予给formData
+      this.formData = this.roleDetail
+    }
+  },
   created() {},
   methods: {
     // 点击取消按钮
@@ -72,10 +91,16 @@ export default {
       this.$refs.dialogRef.validate(async (valid) => {
         if (!valid) return false
 
-        const res = await addRoleAPI(this.formData)
-        console.log(res)
-        this.getAllRoleListFn()
+        // 判断当前是否处于编辑状态,如果是则不执行新增角色相关代码
+        if (!this.isEdit) {
+          const res = await addRoleAPI(this.formData)
+          console.log(res)
+        } else {
+          const res = await updateRoleDetailAPI(this.roleDetail)
+          console.log(res)
+        }
         this.isShowDialog = false
+        this.getAllRoleListFn()
       })
     }
   }
