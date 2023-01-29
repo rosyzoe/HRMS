@@ -1,7 +1,7 @@
 <template>
   <div class="handle-role-dialog">
     <el-dialog
-      title="新增角色"
+      :title="isEdit ? '编辑角色' : '新增角色'"
       :visible="isShowDialog"
       width="50%"
       :close-on-click-modal="false"
@@ -84,6 +84,7 @@ export default {
     // 点击取消按钮
     cancelBtn() {
       this.isShowDialog = false
+      this.$refs.dialogRef.resetFields()
     },
 
     // 点击确认按钮
@@ -101,6 +102,7 @@ export default {
         }
         this.isShowDialog = false
         this.getAllRoleListFn()
+        this.$refs.dialogRef.resetFields()
       })
     }
   }

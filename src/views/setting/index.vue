@@ -55,7 +55,7 @@
         </el-tabs>
 
         <!-- 分页区域 -->
-        <el-row class="pagination" type="flex" justify="center">
+        <el-row v-if="activeName === 'first'" class="pagination" type="flex" justify="center">
           <el-pagination
             layout="sizes,prev,pager, next"
             :total="pageInfo.total"
