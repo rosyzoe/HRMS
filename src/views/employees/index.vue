@@ -11,7 +11,7 @@
           <el-button type="danger" size="small">简单表头导出</el-button>
           <el-button type="info" size="small">复杂表头导出</el-button>
           <el-button type="warning" size="small">excel导入</el-button>
-          <el-button type="primary" size="small">新增员工</el-button>
+          <el-button type="primary" size="small" @click="addEmployeeBtn">新增员工</el-button>
         </template>
       </page-top-nav>
 
@@ -65,6 +65,11 @@
           </el-pagination>
         </el-row>
       </el-card>
+
+      <!-- 弹出层 -->
+      <el-dialog :visible="isShowDialog" title="新增员工">
+        <emp-form :show.sync="isShowDialog"></emp-form>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -73,7 +78,11 @@
 import { getEmployeeListAPI } from '@/api'
 import dayjs from 'dayjs'
 import hireType from '@/constant/hireType'
+import EmpForm from './components/empForm.vue'
 export default {
+  components: {
+    EmpForm
+  },
   data() {
     return {
       // 分页信息
@@ -88,7 +97,9 @@ export default {
       employeeList: [],
 
       // 聘用形式
-      hireType: hireType.hireType
+      hireType: hireType.hireType,
+
+      isShowDialog: false
     }
   },
   mounted() {
@@ -118,6 +129,11 @@ export default {
     // 格式化入职时间
     formatTime(row) {
       return dayjs(row.timeOfEntry).format('YYYY-MM-DD')
+    },
+
+    // 点击新增员工
+    addEmployeeBtn() {
+      this.isShowDialog = true
     },
 
     // 分页 - 更改页面内容显示长度触发
