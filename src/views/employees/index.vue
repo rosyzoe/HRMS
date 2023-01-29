@@ -20,12 +20,7 @@
 </template>
 
 <script>
-import pageTopNav from '@/components/pageTopNav'
-export default {
-  components: {
-    pageTopNav
-  }
-}
+export default {}
 </script>
 
 <style lang="scss" scoped></style>

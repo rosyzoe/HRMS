@@ -15,6 +15,11 @@ import router from './router'
 import '@/icons' // icon
 import '@/permission' // permission control
 
+import PageTopNav from '@/components/pageTopNav'
+
+// 全局注册组件
+Vue.component('PageTopNav', PageTopNav)
+
 // set ElementUI lang to EN
 Vue.use(ElementUI)
 // 如果想要中文版 element-ui，按如下方式声明
