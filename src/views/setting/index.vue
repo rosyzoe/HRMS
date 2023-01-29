@@ -56,7 +56,16 @@
 
         <!-- 分页区域 -->
         <el-row class="pagination" type="flex" justify="center">
-          <el-pagination layout="prev, pager, next" :total="pageInfo.total" :page-size="5"> </el-pagination>
+          <el-pagination
+            layout="sizes,prev,pager, next"
+            :total="pageInfo.total"
+            :page-size="+pageInfo.pagesize"
+            :page-sizes="pageInfo.pageSizes"
+            :current-page="+pageInfo.page"
+            @size-change="handlePageSize"
+            @current-change="handleCurrenyPage"
+          >
+          </el-pagination>
         </el-row>
       </el-card>
 
@@ -87,7 +96,8 @@ export default {
       pageInfo: {
         page: '1',
         pagesize: '10',
-        total: 0
+        total: 0,
+        pageSizes: [5, 10, 15, 20]
       },
 
       // 所有角色列表
@@ -116,10 +126,9 @@ export default {
     // 请求所有角色列表数据
     async getAllRoleListFn() {
       const res = await getAllRoleListAPI(this.pageInfo)
-
       // 保存到data
       this.roleList = res.data.rows
-      this.pageInfo.total = res.data.rows.length
+      this.pageInfo.total = res.data.total
     },
 
     // 根据企业id请求企业信息
@@ -140,6 +149,18 @@ export default {
       this.$refs.dialogRef.isShowDialog = true
       const res = await getRoleDetailAPI(row.id)
       this.roleDetail = res.data
+    },
+
+    // 分页-改变每页显示的条目个数时触发
+    handlePageSize(page) {
+      this.pageInfo.pagesize = page
+      this.getAllRoleListFn(this.pageInfo)
+    },
+
+    // 分页-当前页数发生改变时触发
+    handleCurrenyPage(currentPage) {
+      this.pageInfo.page = currentPage
+      this.getAllRoleListFn(this.pageInfo)
     }
   }
 }
