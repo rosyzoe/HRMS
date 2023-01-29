@@ -36,8 +36,12 @@
             :formatter="formatHireType"
           ></el-table-column>
           <el-table-column label="部门" prop="departmentName" align="center"></el-table-column>
-          <el-table-column label="入职时间" prop="timeOfEntry" align="center"></el-table-column>
-          <el-table-column label="账户状态" prop="enableState" align="center"></el-table-column>
+          <el-table-column
+            label="入职时间"
+            prop="timeOfEntry"
+            align="center"
+            :formatter="formatTime"
+          ></el-table-column>
           <el-table-column label="操作" align="center" width="240">
             <template>
               <el-button type="text" size="small">查看</el-button>
@@ -67,6 +71,7 @@
 
 <script>
 import { getEmployeeListAPI } from '@/api'
+import dayjs from 'dayjs'
 import hireType from '@/constant/hireType'
 export default {
   data() {
@@ -108,6 +113,11 @@ export default {
     // 对工号进行排序
     sortWorkNumberFn(a, b) {
       return Number(a.workNumber) - Number(b.workNumber)
+    },
+
+    // 格式化入职时间
+    formatTime(row) {
+      return dayjs(row.timeOfEntry).format('YYYY-MM-DD')
     },
 
     // 分页 - 更改页面内容显示长度触发
