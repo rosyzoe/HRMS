@@ -17,12 +17,18 @@
 
       <!-- 表格区域 -->
       <el-card class="table-box">
-        <el-table :data="employeeList" border highlight-current-row>
+        <el-table :data="employeeList" :default-sort="{ prop: 'workNumber' }" border highlight-current-row>
           <el-table-column type="index" label="序号" align="center"></el-table-column>
           <el-table-column label="姓名" prop="username" align="center"></el-table-column>
           <el-table-column label="头像" prop="staffPhoto" align="center"></el-table-column>
           <el-table-column label="手机号" prop="mobile" align="center" width="120"></el-table-column>
-          <el-table-column label="工号" prop="workNumber" align="center"></el-table-column>
+          <el-table-column
+            label="工号"
+            prop="workNumber"
+            align="center"
+            sortable
+            :sort-method="sortWorkNumberFn"
+          ></el-table-column>
           <el-table-column
             label="聘用形式"
             prop="formOfEmployment"
@@ -97,6 +103,11 @@ export default {
     // 格式化聘用形式
     formatHireType(row) {
       return this.hireType.find((item) => item.id === row.formOfEmployment)?.value || '非正式'
+    },
+
+    // 对工号进行排序
+    sortWorkNumberFn(a, b) {
+      return Number(a.workNumber) - Number(b.workNumber)
     },
 
     // 分页 - 更改页面内容显示长度触发
