@@ -42,8 +42,17 @@
         </el-table>
 
         <!-- 底部分页区域 -->
-        <el-row type="flex" justify="center">
-          <el-pagination layout="prev, pager, next" :total="pageInfo.total"> </el-pagination>
+        <el-row class="pagination-box" type="flex" justify="center">
+          <el-pagination
+            layout="sizes, prev, pager, next"
+            :current-page="+pageInfo.page"
+            :page-size="+pageInfo.size"
+            :total="pageInfo.total"
+            :page-sizes="pageInfo.sizes"
+            @size-change="handlePageSize"
+            @current-change="handleCurrentPage"
+          >
+          </el-pagination>
         </el-row>
       </el-card>
     </div>
@@ -60,7 +69,8 @@ export default {
       pageInfo: {
         page: '1', // 当前页码
         size: '10', // 当前页面需要的内容长度
-        total: 0 // 内容总数
+        total: 0, // 内容总数
+        sizes: [5, 10, 15, 20] // 内容长度
       },
 
       // 员工列表
@@ -87,6 +97,18 @@ export default {
     // 格式化聘用形式
     formatHireType(row) {
       return this.hireType.find((item) => item.id === row.formOfEmployment)?.value || '非正式'
+    },
+
+    // 分页 - 更改页面内容显示长度触发
+    handlePageSize(pageSize) {
+      this.pageInfo.size = pageSize
+      this.getEmployeeListFn()
+    },
+
+    // 分页 - 分页发生改变时触发
+    handleCurrentPage(currentPage) {
+      this.pageInfo.page = currentPage
+      this.getEmployeeListFn()
     }
   }
 }
@@ -94,6 +116,10 @@ export default {
 
 <style lang="scss" scoped>
 .table-box {
+  margin-top: 20px;
+}
+
+.pagination-box {
   margin-top: 20px;
 }
 </style>
