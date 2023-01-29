@@ -23,7 +23,12 @@
           <el-table-column label="头像" prop="staffPhoto" align="center"></el-table-column>
           <el-table-column label="手机号" prop="mobile" align="center" width="120"></el-table-column>
           <el-table-column label="工号" prop="workNumber" align="center"></el-table-column>
-          <el-table-column label="聘用形式" prop="formOfEmployment" align="center"></el-table-column>
+          <el-table-column
+            label="聘用形式"
+            prop="formOfEmployment"
+            align="center"
+            :formatter="formatHireType"
+          ></el-table-column>
           <el-table-column label="部门" prop="departmentName" align="center"></el-table-column>
           <el-table-column label="入职时间" prop="timeOfEntry" align="center"></el-table-column>
           <el-table-column label="账户状态" prop="enableState" align="center"></el-table-column>
@@ -47,6 +52,7 @@
 
 <script>
 import { getEmployeeListAPI } from '@/api'
+import hireType from '@/constant/hireType'
 export default {
   data() {
     return {
@@ -58,7 +64,10 @@ export default {
       },
 
       // 员工列表
-      employeeList: []
+      employeeList: [],
+
+      // 聘用形式
+      hireType: hireType.hireType
     }
   },
   mounted() {
@@ -73,6 +82,11 @@ export default {
 
       // 将数据个数保存到data
       this.pageInfo.total = res.data.total
+    },
+
+    // 格式化聘用形式
+    formatHireType(row) {
+      return this.hireType.find((item) => item.id === row.formOfEmployment)?.value || '非正式'
     }
   }
 }
