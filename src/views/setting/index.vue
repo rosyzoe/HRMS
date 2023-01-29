@@ -18,7 +18,7 @@
                 <template slot-scope="{ row }">
                   <el-button type="success" size="small">分配权限</el-button>
                   <el-button type="primarydanger" size="small" @click="editBtn(row)">编辑</el-button>
-                  <el-button type="danger" size="small">删除</el-button>
+                  <el-button type="danger" size="small" @click="deleteBtn(row)">删除</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -80,7 +80,7 @@
 </template>
 
 <script>
-import { getAllRoleListAPI, getCompanyByIdAPI, getRoleDetailAPI } from '@/api'
+import { getAllRoleListAPI, getCompanyByIdAPI, getRoleDetailAPI, deleteRoleByIdAPI } from '@/api'
 import { mapGetters } from 'vuex'
 import HandleRoleDialog from './components/handleRoleDialog.vue'
 export default {
@@ -151,16 +151,28 @@ export default {
       this.roleDetail = res.data
     },
 
+    // 点击删除角色
+    async deleteBtn(row) {
+      await deleteRoleByIdAPI(row.id)
+
+      // 解决删除第二页显示暂无数据的问题: 原因,删除了第二页的最后一条数据,还是会请求第二页的的数据
+      // 所以需要在这里加一个判断逻辑,如果当前角色列表的长度等于1,就将分页信息中的page修改为1,最后删除完之后,调用接口实现刷新时就会自动请求第一页的角色数据了
+      if (this.roleList.length === 1) {
+        this.pageInfo.page = '1'
+      }
+      this.getAllRoleListFn()
+    },
+
     // 分页-改变每页显示的条目个数时触发
     handlePageSize(page) {
       this.pageInfo.pagesize = page
-      this.getAllRoleListFn(this.pageInfo)
+      this.getAllRoleListFn()
     },
 
     // 分页-当前页数发生改变时触发
     handleCurrenyPage(currentPage) {
       this.pageInfo.page = currentPage
-      this.getAllRoleListFn(this.pageInfo)
+      this.getAllRoleListFn()
     }
   }
 }

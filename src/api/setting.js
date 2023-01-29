@@ -65,3 +65,14 @@ export const updateRoleDetailAPI = (data) =>
     method: 'PUT',
     data
   })
+
+/**
+ * 根据角色id删除角色
+ * @param {string} id 角色id
+ * @returns promise
+ */
+export const deleteRoleByIdAPI = (id) =>
+  request({
+    url: `/sys/role/${id}`,
+    method: 'DELETE'
+  })
