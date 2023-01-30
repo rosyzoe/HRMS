@@ -82,9 +82,7 @@ export function formatTime(time, option) {
   if (option) {
     return parseTime(time, option)
   } else {
-    return (
-      d.getMonth() + 1 + '月' + d.getDate() + '日' + d.getHours() + '时' + d.getMinutes() + '分'
-    )
+    return d.getMonth() + 1 + '月' + d.getDate() + '日' + d.getHours() + '时' + d.getMinutes() + '分'
   }
 }
 
@@ -130,4 +128,17 @@ export function transTree(list, rootValue) {
     }
   })
   return treeData // 遍历结束, rootValue的id对应下属们收集成功, 返回给上一次递归调用children, 加到父级对象的children属性下
+}
+
+// 把excel文件中的日期格式的内容转回成标准时间
+export function formatExcelDate(numb, format = '-') {
+  const time = new Date((numb - 25567) * 24 * 3600000 - 5 * 60 * 1000 - 43 * 1000 - 24 * 3600000)
+  time.setYear(time.getFullYear())
+  const year = time.getFullYear() + ''
+  const month = time.getMonth() + 1 + ''
+  const date = time.getDate() + ''
+  if (format && format.length === 1) {
+    return year + format + month + format + date
+  }
+  return year + (month < 10 ? '0' + month : month) + (date < 10 ? '0' + date : date)
 }

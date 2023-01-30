@@ -27,3 +27,15 @@ export const addEmployeeAPI = (data) =>
     method: 'POST',
     data
   })
+
+/**
+ * 批量导入员工
+ * @param {object} data 员工信息
+ * @returns promise
+ */
+export const uploadEmployeeExcelAPI = (data) =>
+  request({
+    url: '/sys/user/batch',
+    method: 'POST',
+    data
+  })

@@ -8,9 +8,8 @@
 
         <!-- 右侧按钮 -->
         <template #right>
-          <el-button type="danger" size="small">简单表头导出</el-button>
-          <el-button type="info" size="small">复杂表头导出</el-button>
-          <el-button type="warning" size="small">excel导入</el-button>
+          <el-button type="danger" size="small">excel导出</el-button>
+          <el-button type="warning" size="small" @click="uploadBtn">excel导入</el-button>
           <el-button type="primary" size="small" @click="addEmployeeBtn">新增员工</el-button>
         </template>
       </page-top-nav>
@@ -141,6 +140,11 @@ export default {
     // 点击新增员工
     addEmployeeBtn() {
       this.isShowDialog = true
+    },
+
+    // 点击导入excel
+    uploadBtn() {
+      this.$router.push('/excel')
     },
 
     // 获取将要被添加的员工信息
