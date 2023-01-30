@@ -25,8 +25,19 @@
       </el-form-item>
 
       <el-form-item label="部门" prop="departmentName">
-        <el-input placeholder="请选择部门" style="width: 300px" @focus="departFocusFn"></el-input>
-        <el-tree :data="departmentList" :props="defaultProps"></el-tree>
+        <el-input
+          v-model="form.departmentName"
+          placeholder="请选择部门"
+          readonly
+          style="width: 300px"
+          @focus="departFocusFn"
+        ></el-input>
+        <el-tree
+          v-if="isShowTree"
+          :data="departmentList"
+          :props="defaultProps"
+          @node-click="nodeClick"
+        ></el-tree>
       </el-form-item>
 
       <el-form-item label="转正时间">
@@ -72,6 +83,9 @@ export default {
         label: 'name'
       },
 
+      // 是否显示tree组件
+      isShowTree: false,
+
       // 表单验证规则
       rules: {
         username: [
@@ -98,12 +112,19 @@ export default {
       const res = await getDepartmentAPI()
       console.log(res)
       this.departmentList = transTree(res.data.depts, '')
-      console.log(this.department)
     },
 
     // 部门输入框聚焦时触发
     departFocusFn() {
       this.getDepartmentListFn()
+      this.isShowTree = true
+    },
+
+    // tree组件选中节点时触发
+    nodeClick(data) {
+      console.log(data)
+      this.form.departmentName = data.name
+      this.isShowTree = false
     },
 
     // 点击确定按钮

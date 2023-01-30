@@ -67,7 +67,13 @@
       </el-card>
 
       <!-- 弹出层 -->
-      <el-dialog :visible="isShowDialog" title="新增员工">
+      <el-dialog
+        :visible="isShowDialog"
+        title="新增员工"
+        :close-on-press-escape="false"
+        :show-close="false"
+        :close-on-click-modal="false"
+      >
         <emp-form :show.sync="isShowDialog"></emp-form>
       </el-dialog>
     </div>
@@ -99,6 +105,7 @@ export default {
       // 聘用形式
       hireType: hireType.hireType,
 
+      // 控制dialog的显示隐藏
       isShowDialog: false
     }
   },
