@@ -132,13 +132,15 @@ export default {
         if (!valid) return false
 
         this.$emit('update:show', false)
-        this.$emit('addEmpFormData', this.form)
+        this.$emit('addEmpFormData', { ...this.form })
+        this.$refs.formRef.resetFields()
       })
     },
 
     // 点击取消按钮
     cancelBtn() {
       this.$emit('update:show', false)
+      this.$refs.formRef.resetFields()
     }
   }
 }
