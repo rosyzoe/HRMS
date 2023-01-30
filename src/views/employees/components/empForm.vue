@@ -122,7 +122,6 @@ export default {
 
     // tree组件选中节点时触发
     nodeClick(data) {
-      console.log(data)
       this.form.departmentName = data.name
       this.isShowTree = false
     },
@@ -133,6 +132,7 @@ export default {
         if (!valid) return false
 
         this.$emit('update:show', false)
+        this.$emit('addEmpFormData', this.form)
       })
     },
 

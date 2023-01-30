@@ -15,3 +15,15 @@ export const getEmployeeListAPI = ({ page, size }) =>
       size
     }
   })
+
+/**
+ * 新增员工
+ * @param {object} data 新增员工信息
+ * @returns promise
+ */
+export const addEmployeeAPI = (data) =>
+  request({
+    url: '/sys/user',
+    method: 'POST',
+    data
+  })

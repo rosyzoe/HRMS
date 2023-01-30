@@ -74,14 +74,14 @@
         :show-close="false"
         :close-on-click-modal="false"
       >
-        <emp-form :show.sync="isShowDialog"></emp-form>
+        <emp-form :show.sync="isShowDialog" @addEmpFormData="addEmpFn"></emp-form>
       </el-dialog>
     </div>
   </div>
 </template>
 
 <script>
-import { getEmployeeListAPI } from '@/api'
+import { getEmployeeListAPI, addEmployeeAPI } from '@/api'
 import dayjs from 'dayjs'
 import hireType from '@/constant/hireType'
 import EmpForm from './components/empForm.vue'
@@ -125,7 +125,7 @@ export default {
 
     // 格式化聘用形式
     formatHireType(row) {
-      return this.hireType.find((item) => item.id === row.formOfEmployment)?.value || '非正式'
+      return this.hireType.find((item) => item.id === Number(row.formOfEmployment))?.value || '非正式'
     },
 
     // 对工号进行排序
@@ -141,6 +141,12 @@ export default {
     // 点击新增员工
     addEmployeeBtn() {
       this.isShowDialog = true
+    },
+
+    // 获取将要被添加的员工信息
+    async addEmpFn(addEmpFormData) {
+      await addEmployeeAPI(addEmpFormData)
+      this.getEmployeeListFn()
     },
 
     // 分页 - 更改页面内容显示长度触发
