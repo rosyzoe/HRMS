@@ -42,8 +42,8 @@
             :formatter="formatTime"
           ></el-table-column>
           <el-table-column label="操作" align="center" width="240">
-            <template>
-              <el-button type="text" size="small">查看</el-button>
+            <template slot-scope="{ row }">
+              <el-button type="text" size="small" @click="lookEmpDetailBtn(row.id)">查看</el-button>
               <el-button type="text" size="small">分配角色</el-button>
               <el-button type="text" size="small">删除</el-button>
             </template>
@@ -151,6 +151,11 @@ export default {
     async addEmpFn(addEmpFormData) {
       await addEmployeeAPI(addEmpFormData)
       this.getEmployeeListFn()
+    },
+
+    // 点击查看按钮
+    lookEmpDetailBtn(empId) {
+      this.$router.push(`/employees/empdetail?id=${empId}`)
     },
 
     // 分页 - 更改页面内容显示长度触发

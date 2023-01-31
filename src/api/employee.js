@@ -39,3 +39,26 @@ export const uploadEmployeeExcelAPI = (data) =>
     method: 'POST',
     data
   })
+
+/**
+ * 获取员工个人信息: 员工名字和密码
+ * @param {object} data 员工信息
+ * @returns promise
+ */
+export const getEmployeeDetailAPI = (empId) =>
+  request({
+    url: `/sys/user/${empId}`,
+    method: 'GET'
+  })
+
+/**
+ * 修改员工个人信息: 名字和密码
+ * @param {object} data 员工信息
+ * @returns promise
+ */
+export const changeEmployeeDetailAPI = (data) =>
+  request({
+    url: `/sys/user/${data.id}`,
+    method: 'PUT',
+    data
+  })

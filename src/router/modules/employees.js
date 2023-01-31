@@ -11,6 +11,13 @@ export default {
       component: () => import('@/views/employees'),
       // 路由元信息  其实就是存储数据的对象 我们可以在这里放置一些信息
       meta: { title: '员工', icon: 'people' }
+    },
+    {
+      path: 'empdetail',
+      name: 'empDetail',
+      component: () => import('@/views/employees/empDetail.vue'),
+      meta: { title: '员工详情', icon: 'none' },
+      hidden: true
     }
   ]
 }
