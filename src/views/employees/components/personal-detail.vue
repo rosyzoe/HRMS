@@ -5,12 +5,18 @@
       <el-row type="flex" justify="center">
         <el-col>
           <el-form-item label="工号">
-            <el-input v-model="form.workNumber"></el-input>
+            <el-input v-model="form.workNumber" style="width: 200px"></el-input>
           </el-form-item>
         </el-col>
         <el-col>
           <el-form-item label="入职时间">
-            <el-date-picker v-model="form.timeOfEntry" type="date" placeholder="选择日期"> </el-date-picker>
+            <el-date-picker
+              v-model="form.timeOfEntry"
+              style="width: 200px"
+              type="date"
+              placeholder="选择日期"
+            >
+            </el-date-picker>
           </el-form-item>
         </el-col>
       </el-row>
@@ -19,12 +25,12 @@
       <el-row type="flex">
         <el-col>
           <el-form-item label="姓名">
-            <el-input v-model="form.username"></el-input>
+            <el-input v-model="form.username" style="width: 200px"></el-input>
           </el-form-item>
         </el-col>
         <el-col>
           <el-form-item label="部门">
-            <el-input v-model="form.departmentName"></el-input>
+            <el-input v-model="form.departmentName" style="width: 200px"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -33,12 +39,12 @@
       <el-row type="flex">
         <el-col>
           <el-form-item label="手机">
-            <el-input v-model="form.mobile"></el-input>
+            <el-input v-model="form.mobile" style="width: 200px"> </el-input>
           </el-form-item>
         </el-col>
         <el-col>
-          <el-form-item label="聘用形式">
-            <el-select v-model="form.formOfEmployment" placeholder="请选择">
+          <el-form-item label="聘用形式" style="width: 200px">
+            <el-select v-model="form.formOfEmployment" placeholder="请选择" style="width: 200px">
               <el-option v-for="item in Employees" :key="item.value" :label="item.value" :value="item.id">
               </el-option>
             </el-select>
@@ -114,8 +120,4 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.el-input__inner {
-  width: 200px;
-}
-</style>
+<style lang="scss"></style>

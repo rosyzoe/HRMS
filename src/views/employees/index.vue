@@ -19,7 +19,11 @@
         <el-table :data="employeeList" :default-sort="{ prop: 'workNumber' }" border highlight-current-row>
           <el-table-column type="index" label="序号" align="center"></el-table-column>
           <el-table-column label="姓名" prop="username" align="center"></el-table-column>
-          <el-table-column label="头像" prop="staffPhoto" align="center"></el-table-column>
+          <el-table-column label="头像" prop="staffPhoto" align="center">
+            <template slot-scope="{ row }">
+              <img class="user-photo" :src="row.staffPhoto" alt="" />
+            </template>
+          </el-table-column>
           <el-table-column label="手机号" prop="mobile" align="center" width="120"></el-table-column>
           <el-table-column
             label="工号"
@@ -183,5 +187,11 @@ export default {
 
 .pagination-box {
   margin-top: 20px;
+}
+
+.user-photo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
 }
 </style>
