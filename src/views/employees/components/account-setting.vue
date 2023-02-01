@@ -72,8 +72,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.form {
-  margin-top: 30px;
-}
-</style>
+<style lang="scss" scoped></style>

@@ -43,7 +43,9 @@
           ></el-table-column>
           <el-table-column label="操作" align="center" width="240">
             <template slot-scope="{ row }">
-              <el-button type="text" size="small" @click="lookEmpDetailBtn(row.id)">查看</el-button>
+              <el-button type="text" size="small" @click="lookEmpDetailBtn(row.id, row.formOfEmployment)"
+                >查看</el-button
+              >
               <el-button type="text" size="small">分配角色</el-button>
               <el-button type="text" size="small">删除</el-button>
             </template>
@@ -154,8 +156,9 @@ export default {
     },
 
     // 点击查看按钮
-    lookEmpDetailBtn(empId) {
-      this.$router.push(`/employees/empdetail?id=${empId}`)
+    lookEmpDetailBtn(empId, formOfEmploymentInfo) {
+      // 接收传入的员工id和员工聘用形式,跳转网页时传入到query
+      this.$router.push(`/employees/empdetail?id=${empId}&formOfEmployment=${formOfEmploymentInfo}`)
     },
 
     // 分页 - 更改页面内容显示长度触发

@@ -244,15 +244,7 @@ module.exports = {
       2,
       'always',
       {
-        markers: [
-          'global',
-          'globals',
-          'eslint',
-          'eslint-disable',
-          '*package',
-          '!',
-          ','
-        ]
+        markers: ['global', 'globals', 'eslint', 'eslint-disable', '*package', '!', ',']
       }
     ],
     'template-curly-spacing': [2, 'never'],
@@ -274,6 +266,7 @@ module.exports = {
     'space-before-function-paren': 0,
     'vue/html-closing-bracket-newline': 'off',
     'vue/html-indent': 'off',
-    'vue/html-self-closing': 'off'
+    'vue/html-self-closing': 'off',
+    'vue/max-attributes-per-line': 'off'
   }
 }
